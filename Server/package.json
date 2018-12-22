@@ -1,0 +1,15 @@
+{
+  "name": "webapp_wi",
+  "version": "1.0.0",
+  "description": "API, für ein Beispiel - WebApp",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Kai Gothe",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}
