@@ -1,0 +1,74 @@
+<!doctype html>
+
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+
+  <title>Jahresvorsätze 2019</title>
+  <meta name="description" content="eine kleine Web App für WI">
+  <meta name="author" content="Kai Gothe">
+
+  <link rel="stylesheet" href="style/style.css">
+  <link rel="stylesheet" href="style/font.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+</head>
+
+<body>
+    <h1>Vorsätze für das Jahr 2019</h1>
+    <div class="wrapper">
+        <div class="panel" style="height: 50px; overflow: hidden;">
+            <input type="text" name="Search" placeholder="Suche ..." class="textfield search-field" >
+            <div class="button search-button">
+                <i class="material-icons search-icon">
+                    search
+                </i>
+            </div>
+        </div>
+        <div class="panel" style="height:400px">
+            <div class="row" id="1">
+                <input type="text" value="WI bestehen" class="row-textfield" readonly>
+                <div class="button-cicular edit" style=" right: 60px; top: 11px;">
+                    <i class="material-icons">
+                        create
+                    </i>
+                </div>
+                <div class="button-cicular done"style=" right: 110px; top: 11px;">
+                    <i class="material-icons">
+                        done
+                    </i>
+                </div>
+                <div class="button-cicular delete" style=" right: 10px; top: 11px;">
+                    <i class="material-icons">
+                        delete
+                    </i>
+                </div>
+            </div>
+
+            <div class="row" id="2">
+                    <input type="text" value="WI bestehen wird sehr anspruchsvoll, oder?!" class="row-textfield" readonly>
+                    <div class="button-cicular edit" style=" right: 60px; top: 11px;">
+                        <i class="material-icons">
+                            create
+                        </i>
+                    </div>
+                    <div class="button-cicular done done_active"style=" right: 110px; top: 11px;">
+                        <i class="material-icons">
+                            done
+                        </i>
+                    </div>
+                    <div class="button-cicular delete" style=" right: 10px; top: 11px;">
+                        <i class="material-icons">
+                            delete
+                        </i>
+                    </div>
+                </div>
+        </div>
+        <h2>Neuer Eintrag</h2>
+        <div class="panel" style="overflow: hidden;">
+            <input type="text" name="eintragen" placeholder="neuer Vorsatz" class="textfield new-field" >
+            <div class="button new-button">Eintragen</div>
+        </div>
+    </div>
+</body>
+</html>
