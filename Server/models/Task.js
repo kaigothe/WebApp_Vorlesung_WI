@@ -11,10 +11,10 @@ var Task = {
     },
 
     deleteTask:function(listID, callback){
-        return db.query("DELETE FROM `WebApp`.`listItem` WHERE (`idlistItem` = ?);", [listID], callback);
+        return db.query("DELETE FROM `WebApp`.`listItem` WHERE (`IdlistItem` = ?);", [listID], callback);
     },
 
-    updateTask:function(listID, text, callback){
+    updateTaskText:function(listID, text, callback){
         return db.query("UPDATE `WebApp`.`listItem` SET `content` = ? WHERE (`idlistItem` = ?);", [text,listID], callback);
     },
 

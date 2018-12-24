@@ -37,14 +37,18 @@ router.get('/:id?', function(req,res,next){
 
 router.post('/:id?', function(req,res,next){
     
-    console.log(req.body)
-    console.log(req.body.id);
-    console.log(req.body.action);
-    console.log("test message");
+    console.log(req.body);
 
-    switch(req.body.action){
+    var action  = req.body.action;
+    var userID  = req.body.userID;
+    var listID  = req.body.listID;
+    var done    = req.body.done;
+    var task_text = req.body.task_text;
+
+    switch(action){
         case "new":
-            Task.createTask(req.body.content, req.body.userID, function(err, result){
+            console.log("New Task will created");
+            Task.createTask(task_text, userID, function(err, result){
                 if(err)
                 {
                     res.json(err);
@@ -56,7 +60,8 @@ router.post('/:id?', function(req,res,next){
             });
             break;
         case "delete":
-            Task.deleteTask(req.body.listID, function(err, result){
+            console.log("Task will deleted");
+            Task.deleteTask(listID, function(err, result){
                 if(err)
                 {
                     res.json(err);
@@ -68,7 +73,8 @@ router.post('/:id?', function(req,res,next){
             })
             break;
         case "update_Task":
-            Task.updateTask(req.body.listID, req.body.content, function(err, result){
+            console.log("Update Task Text");
+            Task.updateTaskText(listID, task_text, function(err, result){
                 if(err){
                     res.json(err);
                 }
@@ -78,7 +84,8 @@ router.post('/:id?', function(req,res,next){
             });
             break;
         case "update_Done":
-            Task.updateTaskDone(req.body.listID, req.body.done, function(err, result){
+            console.log("Update Done status");
+            Task.updateTaskDone(listID, done, function(err, result){
                 if(err){
                     res.json(err);
                 }
@@ -88,7 +95,8 @@ router.post('/:id?', function(req,res,next){
             });
             break; 
         case "getAllTaskByUserID":
-            Task.getAllTasksByUserID(req.body.userID, function(err, result){
+            console.log("Searching for Taks for User ${userID}");
+            Task.getAllTasksByUserID(userID, function(err, result){
                 if(err){
                     res.json(err);
                 }
@@ -98,7 +106,8 @@ router.post('/:id?', function(req,res,next){
             });
             break; 
         case "getAllTaskBylistID":
-            Task.getTasksByID(req.body.listID2, function(err, result){
+            console.log("Searching all Tasks in Database with ID");
+            Task.getTasksByID(listID, function(err, result){
                 if(err){
                     res.json(err);
                 }

@@ -5,11 +5,11 @@
 ## User 
 ### Attribute 
 
-| Attribut 	| Datentyp    	| Default             |
-|----------	|-------------	|---------------------|
-| iduser   	| INT(11)     	| `Auto Increment`    |
-| name     	| varchar(50) 	|                     |
-| created  	| DATE TIME   	| CURRENT_TIMESTAMP() |
+| Attribut 	| Datentyp    	| Default               |
+|----------	|-------------	|-----------------------|
+| iduser   	| INT(11)     	| `Auto Increment`      |
+| name     	| varchar(50) 	|                       |
+| created  	| DATE TIME   	| `CURRENT_TIMESTAMP()` |
 
 ### Funktionen
 
