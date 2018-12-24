@@ -95,7 +95,7 @@ router.post('/:id?', function(req,res,next){
             });
             break; 
         case "getAllTaskByUserID":
-            console.log("Searching for Taks for User ${userID}");
+            console.log("Searching for Taks for User " + userID);
             Task.getAllTasksByUserID(userID, function(err, result){
                 if(err){
                     res.json(err);

@@ -3,12 +3,12 @@
 *{
     margin: 0;
     padding: 0;
+    filter: blur(0px);
 }
 
 html {font-size: 1em;}
 
 body {
-  background-color: white;
   font-family: Lato;
   font-family: Open Sans;
   font-weight: 400;
@@ -21,6 +21,7 @@ p {margin-bottom: 1.3em;}
 h1, h2, h3, h4, h5, h6 {
     font-family: Lato;
     color: #4A4A4A;
+    /*color: aliceblue;*/
 }
 
 h1, h2, h3, h4 {
@@ -51,7 +52,7 @@ h4 {font-size: 1.414em;}
 small, .font_small {font-size: 0.707em;}
 
 body{
-    background: #F7F7F7;
+    background: white;
 }
 
 .wrapper{
@@ -108,6 +109,7 @@ body{
     -moz-box-shadow: 0px 0px 8px 0px rgba(0,0,0,0.15);
     box-shadow: 0px 0px 8px 0px rgba(0,0,0,0.15);
     border-radius: 5px;
+    cursor: pointer;
 }
 
 .button-cicular{
@@ -136,6 +138,7 @@ i{
     position: absolute;
     right: 0px;
     top: 0px;
+    cursor: pointer;
 }
 
 .done:hover {
@@ -179,6 +182,7 @@ i{
     padding-bottom: 0.6em;
     margin-bottom: 1em;
     margin-top: 0.8em;
+    cursor: pointer;
 }
 
 .row{
@@ -196,7 +200,6 @@ i{
 }
 
 .row-textfield{
-
   display: inline-block;
   -webkit-box-sizing: content-box;
   -moz-box-sizing: content-box;
@@ -216,4 +219,37 @@ i{
   -moz-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1);
   -o-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1);
   transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1);
+}
+
+.background-image{
+    background-image: url("../images/hakon-sataoen-23713-unsplash.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center; 
+    background-size: cover;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height:100vh;
+    margin: 0;
+    padding: 0;
+    filter: blur(8px);
+}
+
+
+.login-panel{
+    width: 90vw;
+    height: 100vh;
+    max-width: 475px;
+    max-height: 400px;
+
+    position: absolute;
+
+    top: calc(50vh - 400px);
+    background: white;
+    border-radius: 5px;
+    -webkit-box-shadow: 0px 0px 8px 0px rgba(0,0,0,0.15);
+    -moz-box-shadow: 0px 0px 8px 0px rgba(0,0,0,0.15);
+    box-shadow: 0px 0px 8px 0px rgba(0,0,0,0.15);
 }

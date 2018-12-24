@@ -30,6 +30,8 @@ router.post('/', function(req, res, next){
     var userName    = req.body.userName;
     var userID      = req.body.userID;
 
+    console.log(req.body);
+
     switch (action) {
         case "new":
             User.createUser(userName, function(err, result){
@@ -60,6 +62,15 @@ router.post('/', function(req, res, next){
             break;
         case "existsUser":
             User.isUserAvailable(userName, function(err, result){
+                if(err){
+                    res.json(err);
+                }else{
+                    res.json(result);
+                } 
+            });
+            break;
+        case "userData":
+            User.getUserByName(userName, function(err, result){
                 if(err){
                     res.json(err);
                 }else{

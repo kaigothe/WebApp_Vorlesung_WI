@@ -23,6 +23,10 @@ var User = {
 
     getAllUserByID:function(userId, callback){
         return db.query("SELECT * FROM WebApp.user WHERE `iduser` = ?", [userId], callback);
+    },
+
+    getUserByName:function(userName, callback){
+        return db.query("SELECT * FROM WebApp.user WHERE `name` = ?", [userName], callback);
     }
 
     

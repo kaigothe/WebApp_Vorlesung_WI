@@ -11,10 +11,14 @@
   <link rel="stylesheet" href="style/style.css">
   <link rel="stylesheet" href="style/font.css">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@7.33.1/dist/sweetalert2.min.css">
 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.33.1/dist/sweetalert2.all.min.js"></script>
 </head>
 
-<body>
+<body class="light-blur modified-body">
+    <!--<div class="background-image"></div> -->
     <h1>Vorsätze für das Jahr 2019</h1>
     <div class="wrapper">
         <div class="panel" style="height: 50px; overflow: hidden;">
@@ -71,4 +75,141 @@
         </div>
     </div>
 </body>
+<script>
+
+    var userID = null;
+    var userName = null;
+
+$( document ).ready(function(){
+    console.log("test message");
+    if (!userID || !userName){
+        swal({
+            type: 'question',
+            title: 'Login',
+            text: 'Bitte gebe deinen Nutzernamen ein',
+            footer: '<a href>Kein Account? Kein Problem ;-) Hier registieren!</a>',
+            input: 'text',
+            inputValue: 'Rainer Zufall',
+        }).then((result) => {
+            console.log(result.value);
+                $.ajax({
+                    type: "POST",
+                    data: {
+                        action: "existsUser",
+                        userName : result.value,
+                    },
+                    url: "http:/localhost:3000/api/v1/user/",
+                    success: function(data){
+                        console.log(data);
+                        console.log(data[0].NumbersOfUser);
+
+                        if (data[0].NumbersOfUser > 0){
+                            getUserData(result.value);
+                        }else{
+                            UserNotFound();
+                        }
+                    },
+                    error: function(error){
+                        alertError(error);
+                    }
+                });  
+        })
+    }
+});
+
+/** 
+ * Allgemeine Funktionen 
+*/
+function alertError(error){
+    Swal({
+            type: "error",
+            title: error.status, 
+            text: error.statusText
+        });
+}
+
+
+/**
+ *   Benutzerfunktionen 
+*/
+
+function UserNotFound(){
+    Swal({
+        type: "error", 
+        title: "Der Benutzername ist nicht verfügbar",
+        text: "Leider konnte dein Benutztername in in unsere Datenbank gefunden werden. Deswegen registiere dich schnell bei Uns ;-)"
+    });
+}
+
+function getUserData(temp_userName){
+    console.warn("Looking for User Data");
+    $.ajax({
+        type: "POST",
+        data: {
+            action: "userData",
+            userName : temp_userName,
+        },
+        url: "http:/localhost:3000/api/v1/user/",
+        success: function(data){
+            console.log(data);
+            userID = data[0].iduser;
+            userName = data[0].name;
+
+            getAllListItemsFromUser(userID);
+            
+        },
+        error: function(error){
+            alertError(error);
+        }
+    });  
+}
+
+/**
+ *   Listen Funtionen
+*/
+
+function getAllListItemsFromUser(userID){
+    console.warn("Looking for List Items from User ${userId}");
+    $.ajax({
+        type: "POST",
+        data: {
+            action: "getAllTaskByUserID",
+            userID : userID,
+        },
+        url: "http:/localhost:3000/api/v1/task/",
+        success: function(data){
+            console.log(data);
+        },
+        error: function(error){
+            alertError(error);
+        }
+    });  
+}
+
+
+
+
+function createRow(text, listID){
+    return ' <div class="row" id="1">   \
+                <input type="text" value="WI bestehen" class="row-textfield" readonly>  \
+                <div class="button-cicular edit" style=" right: 60px; top: 11px;">  \
+                    <i class="material-icons">  \
+                        create  \
+                    </i>  \
+                </div>  \
+                <div class="button-cicular done"style=" right: 110px; top: 11px;">  \
+                    <i class="material-icons">  \
+                        done  \
+                    </i>  \
+                </div>  \
+                <div class="button-cicular delete" style=" right: 10px; top: 11px;">  \
+                    <i class="material-icons">  \
+                        delete  \
+                    </i>  \
+                </div>  \
+            </div>  \
+    ';
+}
+
+</script>
 </html>
