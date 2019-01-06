@@ -17,7 +17,7 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.33.1/dist/sweetalert2.all.min.js"></script>
 </head>
 
-<body class="light-blur modified-body">
+<body>
     <!--<div class="background-image"></div> -->
     <h1>Vorsätze für das Jahr 2019</h1>
     <div class="wrapper">
@@ -29,49 +29,13 @@
                 </i>
             </div>
         </div>
-        <div class="panel" style="height:400px">
-            <div class="row" id="1">
-                <input type="text" value="WI bestehen" class="row-textfield" readonly>
-                <div class="button-cicular edit" style=" right: 60px; top: 11px;">
-                    <i class="material-icons">
-                        create
-                    </i>
-                </div>
-                <div class="button-cicular done"style=" right: 110px; top: 11px;">
-                    <i class="material-icons">
-                        done
-                    </i>
-                </div>
-                <div class="button-cicular delete" style=" right: 10px; top: 11px;">
-                    <i class="material-icons">
-                        delete
-                    </i>
-                </div>
-            </div>
-
-            <div class="row" id="2">
-                    <input type="text" value="WI bestehen wird sehr anspruchsvoll, oder?!" class="row-textfield" readonly>
-                    <div class="button-cicular edit" style=" right: 60px; top: 11px;">
-                        <i class="material-icons">
-                            create
-                        </i>
-                    </div>
-                    <div class="button-cicular done done_active"style=" right: 110px; top: 11px;">
-                        <i class="material-icons">
-                            done
-                        </i>
-                    </div>
-                    <div class="button-cicular delete" style=" right: 10px; top: 11px;">
-                        <i class="material-icons">
-                            delete
-                        </i>
-                    </div>
-                </div>
+        <div class="panel" id="listWrapper" style="height:400px">
+            
         </div>
         <h2>Neuer Eintrag</h2>
         <div class="panel" style="overflow: hidden;">
-            <input type="text" name="eintragen" placeholder="neuer Vorsatz" class="textfield new-field" >
-            <div class="button new-button">Eintragen</div>
+            <input type="text" name="eintragen" id="eintragen" placeholder="neuer Vorsatz" class="textfield new-field" >
+            <div class="button new-button"  onclick="insertNewRow()"> Eintragen</div>
         </div>
     </div>
 </body>
@@ -79,6 +43,7 @@
 
     var userID = null;
     var userName = null;
+    var ListData;
 
 $( document ).ready(function(){
     console.log("test message");
@@ -117,6 +82,29 @@ $( document ).ready(function(){
     }
 });
 
+function insertNewRow(e){
+    console.log($("#eintragen").val());
+    console.warn("Insert new row");
+    $.ajax({
+        type: "POST",
+        timeout: 8000,
+        data: {
+            action: "new",
+            userID : 4,
+            task_text: $("#eintragen").val()
+        },
+        url: "http:/localhost:3000/api/v1/task/",
+        success: function(data){
+            console.log(data);
+            getAllListItemsFromUser(userID);
+        },
+        error: function(error){
+            alertError(error);
+        }
+    });  
+    getAllListItemsFromUser(userID);
+}
+
 /** 
  * Allgemeine Funktionen 
 */
@@ -126,6 +114,36 @@ function alertError(error){
             title: error.status, 
             text: error.statusText
         });
+}
+
+function toogleDone(e){
+    var current_done = 1 
+    console.log("ID: " + $(e).attr("data-id"))
+    console.warn("Toogle Done Status");
+    if ( $(e).hasClass( "done_active" ) ) {
+        current_done = 0;
+    }
+    $.ajax({
+        type: "POST",
+        timeout: 8000,
+        data: {
+            action: "update_Done",
+            userID : 4,
+            listID: $(e).attr("data-id"),
+            done: current_done
+        },
+        url: "http:/localhost:3000/api/v1/task/",
+        success: function(data){
+            console.log(data);
+            getAllListItemsFromUser(userID);
+        },
+        error: function(error){
+            alertError(error);
+        }
+    });  
+
+    getAllListItemsFromUser(userID);
+
 }
 
 
@@ -154,9 +172,7 @@ function getUserData(temp_userName){
             console.log(data);
             userID = data[0].iduser;
             userName = data[0].name;
-
             getAllListItemsFromUser(userID);
-            
         },
         error: function(error){
             alertError(error);
@@ -168,17 +184,50 @@ function getUserData(temp_userName){
  *   Listen Funtionen
 */
 
-function getAllListItemsFromUser(userID){
-    console.warn("Looking for List Items from User ${userId}");
+function getAllListItemsFromUser(current_userID){
+    console.warn("Looking for List Items from User");
     $.ajax({
         type: "POST",
+        timeout: 8000,
         data: {
             action: "getAllTaskByUserID",
-            userID : userID,
+            userID : 4,
+            task_text: "Testing string",
         },
         url: "http:/localhost:3000/api/v1/task/",
         success: function(data){
-            console.log(data);
+            //console.log(data);
+            ListData = data;
+            loadList();
+        },
+        error: function(error){
+            alertError(error);
+        }
+    });  
+}
+
+function loadList(){
+    var tempHTML = "";
+    $.each(ListData, function(key, value){
+        //console.log(value.content);
+        tempHTML = tempHTML + createRow(value.content, value.done, value.idlistItem);
+    });
+    $("#listWrapper").html(tempHTML);
+}
+
+function deleteTask(e){
+    console.warn("Lösche Element von der Liste");
+    $.ajax({
+        type: "POST",
+        timeout: 8000,
+        data: {
+            action: "delete",
+            listID: $(e).attr("data-id"),
+        },
+        url: "http:/localhost:3000/api/v1/task/",
+        success: function(data){
+            //console.log(data);
+            getAllListItemsFromUser(userID);
         },
         error: function(error){
             alertError(error);
@@ -187,22 +236,19 @@ function getAllListItemsFromUser(userID){
 }
 
 
-
-
-function createRow(text, listID){
-    return ' <div class="row" id="1">   \
-                <input type="text" value="WI bestehen" class="row-textfield" readonly>  \
-                <div class="button-cicular edit" style=" right: 60px; top: 11px;">  \
-                    <i class="material-icons">  \
-                        create  \
-                    </i>  \
-                </div>  \
-                <div class="button-cicular done"style=" right: 110px; top: 11px;">  \
+function createRow(text, done, listID){
+    done_class = "";
+    if (done){
+        done_class = " done_active";
+    }
+    return ' <div class="row" id="' + listID + '">   \
+                <input type="text" value="'+ text +'" data-id ="'+ listID +'"  class="row-textfield" readonly>  \
+                <div class="button-cicular done '+ done_class +'" data-id ="'+ listID +'" onclick="toogleDone(this)" style="right: 60px; top: 11px;">  \
                     <i class="material-icons">  \
                         done  \
                     </i>  \
                 </div>  \
-                <div class="button-cicular delete" style=" right: 10px; top: 11px;">  \
+                <div class="button-cicular delete" data-id ="'+ listID +'"  onclick="deleteTask(this)" style="right: 10px; top: 11px;">  \
                     <i class="material-icons">  \
                         delete  \
                     </i>  \
