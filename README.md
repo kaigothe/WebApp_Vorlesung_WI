@@ -1,3 +1,3 @@
 # WebApp_Vorlesung_WI
 
-[](screenshot.png)
+![Screen Shot](screenshot.png)
