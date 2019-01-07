@@ -52,7 +52,7 @@ $( document ).ready(function(){
             type: 'question',
             title: 'Login',
             text: 'Bitte gebe deinen Nutzernamen ein',
-            footer: '<a href>Kein Account? Kein Problem ;-) Hier registieren!</a>',
+            footer: '<a href="./register.html">Kein Account? Kein Problem ;-) Hier registieren!</a>',
             input: 'text',
             inputValue: 'Rainer Zufall',
         }).then((result) => {
@@ -113,6 +113,7 @@ function insertNewRow(e){
  * Allgemeine Funktionen 
 */
 function alertError(error){
+    console.error(error);
     Swal({
             type: "error",
             title: error.status, 

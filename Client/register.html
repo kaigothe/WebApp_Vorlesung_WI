@@ -1,0 +1,70 @@
+<!doctype html>
+
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+
+  <title>Jahresvorsätze 2019</title>
+  <meta name="description" content="eine kleine Web App für WI">
+  <meta name="author" content="Kai Gothe">
+
+  <link rel="stylesheet" href="style/style.css">
+  <link rel="stylesheet" href="style/font.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@7.33.1/dist/sweetalert2.min.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.33.1/dist/sweetalert2.all.min.js"></script>
+</head>
+
+<body>
+    <!--<div class="background-image"></div> -->
+    <h1>Vorsätze für das Jahr 2019</h1>
+    <div class="wrapper">
+        
+    
+        <h2>Neuer Benutzer</h2>
+        <div class="panel" style="overflow: hidden;">
+            <input type="text" name="newUser" id="eintragen" placeholder="dein Nutzername" class="textfield new-field" >
+            <div class="button new-button"  onclick="insertNewRow()"> Eintragen</div>
+        </div>
+    </div>
+</body>
+<script>
+
+
+function insertNewRow(e){
+    console.log($("#eintragen").val());
+    console.warn("Insert new User");
+    $.ajax({
+        type: "POST",
+        timeout: 8000,
+        data: {
+            action: "new",
+            userName : $("#eintragen").val()
+        },
+        url: "http:/localhost:3000/api/v1/user/",
+        success: function(data){
+            console.log(data);
+            window.history.back();
+        },
+        error: function(error){
+            alertError(error);
+        }
+    });  
+}
+
+function alertError(error){
+    console.error(error);
+    Swal({
+            type: "error",
+            title: error.status, 
+            text: error.statusText
+        });
+}
+
+
+
+</script>
+</html>
+
