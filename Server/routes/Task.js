@@ -39,11 +39,12 @@ router.post('/:id?', function(req,res,next){
     
     console.log(req.body);
 
-    var action  = req.body.action;
-    var userID  = req.body.userID;
-    var listID  = req.body.listID;
-    var done    = req.body.done;
-    var task_text = req.body.task_text;
+    var action          = req.body.action;
+    var userID          = req.body.userID;
+    var listID          = req.body.listID;
+    var done            = req.body.done;
+    var serachQuery     = req.body.searchQuery;
+    var task_text       = req.body.task_text;
 
     switch(action){
         case "new":
@@ -116,17 +117,18 @@ router.post('/:id?', function(req,res,next){
                 }
             });
             break; 
-        default:
-            Task.getAllTasks(function(err, result){
-                if(err)
-                {
+        case "searchQuery":
+            console.log("Searching all Tasks with contains '"+ serachQuery +"'");
+            Task.searchWithQuery(serachQuery, userID, function(err, result){
+                if(err){
                     res.json(err);
                 }
-                else
-                {
+                else{
                     res.json(result);
-                } 
-            })
+                }
+            });
+        default:
+            console.warn("operation not implented :0");
         break;
     }
 

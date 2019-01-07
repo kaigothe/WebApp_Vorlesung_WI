@@ -28,6 +28,10 @@ var Task = {
 
     getAllTasksByUserID:function(userID, callback){
         return db.query("SELECT * FROM WebApp.listItem WHERE owner = ?;", [userID], callback);
+    },
+
+    searchWithQuery:function(searchQuery, owner, callback){
+        return db.query('SELECT * FROM WebApp.listItem where owner = '+ owner +' AND content LIKE "%'+ searchQuery +'%" ;', callback);
     }
 
 }

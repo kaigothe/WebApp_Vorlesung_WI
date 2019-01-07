@@ -22,7 +22,7 @@
     <h1>Vorsätze für das Jahr 2019</h1>
     <div class="wrapper">
         <div class="panel" style="height: 50px; overflow: hidden;">
-            <input type="text" name="Search" placeholder="Suche ..." class="textfield search-field" >
+            <input type="text" name="Search"  id="searchBar" placeholder="Suche ..." class="textfield search-field" >
             <div class="button search-button">
                 <i class="material-icons search-icon">
                     search
@@ -82,6 +82,10 @@ $( document ).ready(function(){
     }
 });
 
+$("#searchBar").on("change paste keyup", function() {
+   searchWith($(this).val(), userID)
+});
+
 function insertNewRow(e){
     console.log($("#eintragen").val());
     console.warn("Insert new row");
@@ -90,7 +94,7 @@ function insertNewRow(e){
         timeout: 8000,
         data: {
             action: "new",
-            userID : 4,
+            userID : userID,
             task_text: $("#eintragen").val()
         },
         url: "http:/localhost:3000/api/v1/task/",
@@ -128,7 +132,7 @@ function toogleDone(e){
         timeout: 8000,
         data: {
             action: "update_Done",
-            userID : 4,
+            userID : userID,
             listID: $(e).attr("data-id"),
             done: current_done
         },
@@ -191,7 +195,30 @@ function getAllListItemsFromUser(current_userID){
         timeout: 8000,
         data: {
             action: "getAllTaskByUserID",
-            userID : 4,
+            userID : userID,
+            task_text: "Testing string",
+        },
+        url: "http:/localhost:3000/api/v1/task/",
+        success: function(data){
+            //console.log(data);
+            ListData = data;
+            loadList();
+        },
+        error: function(error){
+            alertError(error);
+        }
+    });  
+}
+
+function searchWith(Query, fromUser){
+    console.warn("Looking for List Items from User");
+    $.ajax({
+        type: "POST",
+        timeout: 8000,
+        data: {
+            action: "searchQuery",
+            userID : userID,
+            searchQuery: Query,
             task_text: "Testing string",
         },
         url: "http:/localhost:3000/api/v1/task/",
