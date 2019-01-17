@@ -1,4 +1,5 @@
 var express = require('express');
+const boxen = require('boxen');
 var router = express.Router();
 var Task=require('../models/Task');
 
@@ -37,7 +38,8 @@ router.get('/:id?', function(req,res,next){
 
 router.post('/:id?', function(req,res,next){
     
-    console.log(req.body);
+    console.log(boxen(JSON.stringify(req.body), {padding: 1, margin: 1, borderStyle: 'double'}));
+
 
     var action          = req.body.action;
     var userID          = req.body.userID;

@@ -1,4 +1,5 @@
 var express = require('express');
+const boxen = require('boxen');
 var router = express.Router();
 var User=require('../models/User');
 
@@ -30,7 +31,7 @@ router.post('/', function(req, res, next){
     var userName    = req.body.userName;
     var userID      = req.body.userID;
 
-    console.log(req.body);
+    console.log(boxen(JSON.stringify(req.body), {padding: 1, margin: 1, borderStyle: 'double'}));
 
     switch (action) {
         case "new":
